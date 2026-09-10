@@ -26,7 +26,7 @@ export class CategoriesService {
     return await this.prisma.category.create({
       data: { name, image },
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 'P2002') {
       throw new ConflictException('Category name already exists');
     }
