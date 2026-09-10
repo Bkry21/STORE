@@ -22,13 +22,16 @@ export class CategoriesService {
   }
 
   async create(name: string, image?: string) {
-    try {
-      return await this.prisma.category.create({
-        data: { name, image },
-      });
-    } catch {
+  try {
+    return await this.prisma.category.create({
+      data: { name, image },
+    });
+  } catch (error) {
+    if (error.code === 'P2002') {
       throw new ConflictException('Category name already exists');
     }
+    throw error;
+  }
   }
 
   async update(id: string, name?: string, image?: string) {
